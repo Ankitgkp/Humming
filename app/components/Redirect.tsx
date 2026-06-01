@@ -12,5 +12,7 @@ export function Redirect() {
     if (session.data?.user) {
       router.push("/dashboard");
     }
-  }, []);
+  }, [router, session.data?.user]);
+
+  return null;
 }

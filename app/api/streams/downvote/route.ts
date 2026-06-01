@@ -25,6 +25,7 @@ export async function POST(req: NextRequest) {
         })
     }
 
+
     try {
 
         const data = UpvoteSchema.parse(await req.json());
@@ -36,9 +37,13 @@ export async function POST(req: NextRequest) {
                 }
             }
         })
+        return NextResponse.json({
+            message: "Downvoted"
+        })
+
     } catch (e) {
         return NextResponse.json({
-            message: "Error while upvoting"
+            message: "Error while downvoting"
         }, {
             status: 403
         })

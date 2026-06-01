@@ -18,11 +18,14 @@ export async function POST(req: NextRequest) {
     })
 
     if (!user) {
-        return NextResponse.json({
-            message: "Unauthenticatd"
-        }, {
-            status: 403
-        })
+        return NextResponse.json(
+            {
+                message: "Unauthenticated",
+            },
+            {
+                status: 401,
+            },
+        );
     }
 
     try {
@@ -34,11 +37,22 @@ export async function POST(req: NextRequest) {
                 streamId: data.streamId
             }
         })
+        return NextResponse.json({
+            message: "Upvoted"
+        })
     } catch (e) {
+        if (e && typeof e === "object" && "code" in e && e.code === "P2002") {
+            return NextResponse.json({
+                message: "Already upvoted"
+            }, {
+                status: 409
+            })
+        }
+
         return NextResponse.json({
             message: "Error while upvoting"
         }, {
-            status: 403
+            status: 400
         })
     }
 
